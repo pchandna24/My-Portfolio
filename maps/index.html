@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Marker Clustering</title>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+   
+    </style>
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  </head>
+  <body style="background-image: url(interlaced.png)">
+      <div id="header">
+          <h1 style="text-align: center;padding-top: 10px; color: #5F6366; font-family: 'PT Sans', sans-serif;">Tell us where we can help you with water <i class="fas fa-tint"></i></h1>
+      </div>
+      <div id="new" style="margin: 0 auto; width:100%;">
+            <form style="padding:20px;">
+                <div class="hello" style="width:100%; display:flex;flex-direction: column; justify-content: center; align-items: center;">
+                        <div class="form-group" style="width:25%;">
+                                <label for="exampleInputlong">Latitude</label>
+                                <input type="Lattitude" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Latitude">
+                                
+                              </div>
+                              <div class="form-group" style="width:25%;">
+                                <label for="exampleInputlat">Longtitude</label>
+                                <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Enter Longtitude">
+                              </div>
+
+                </div>
+                    
+                <div style="display: flex; justify-content: center;"> 
+                    <button type="submit" class="btn btn-primary" onclick="func()">Submit</button>
+                </div>
+                  </form>
+      </div>
+    <div id="map" style="height: 75%; width: 75%;margin: 0 auto;"></div>
+    <script>
+
+        window.addEventListener('submit', (e) =>{
+            e.preventDefault();
+        })
+
+    var locations =
+     [  {lat: 28.7041, lng: 77.1025},
+        {lat: 28.7041, lng: 77.1025},
+        {lat: 28.7041, lng: 77.1025},
+        {lat: 28.7041, lng: 77.1025},
+        {lat: 28.7041, lng: 77.1025},
+        {lat: 28.5355, lng: 77.3910},
+        {lat: 28.5355, lng: 77.3910},
+        {lat: 28.5355, lng: 77.3910},
+        {lat: 28.5355, lng: 77.3910},
+        {lat: 28.5355, lng: 77.3910},
+        {lat: 28.4070, lng: 77.8498},
+        {lat: 28.4070, lng: 77.8498},
+        {lat: 28.4070, lng: 77.8498},
+        {lat: 28.4070, lng: 77.8498},
+        {lat: 28.4070, lng: 77.8498},
+        {lat: 30.3165, lng: 78.0322},
+        {lat: 30.3165, lng: 78.0322},
+        {lat: 30.3165, lng: 78.0322},
+        {lat: 30.3165, lng: 78.0322},
+        {lat: 30.3165, lng: 78.0322},
+        {lat: 25.2138, lng: 75.8648},
+        {lat: 25.2138, lng: 75.8648},
+        {lat: 25.2138, lng: 75.8648}
+      ];
+
+        function func(){
+            var lat = document.getElementById("exampleInputEmail1").value;
+            var lng = document.getElementById("exampleInputEmail2").value;
+            console.log(lat+" "+lng);
+            var obj = {
+                lat : parseFloat(lat),
+                lng : parseFloat(lng)
+            };
+            locations.push(obj);
+            console.log(locations);
+        }
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 3,
+          center: {lat: 28.7041, lng: 77.1025}
+        });
+
+        // Create an array of alphabetical characters used to label the markers.
+        var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+        // Add some markers to the map.
+        // Note: The code uses the JavaScript Array.prototype.map() method to
+        // create an array of markers based on a given "locations" array.
+        // The map() method here has nothing to do with the Google Maps API.
+        var markers = locations.map(function(location, i) {
+          return new google.maps.Marker({
+            position: location,
+            label: labels[i % labels.length]
+          });
+        });
+
+        // Add a marker clusterer to manage the markers.
+        var markerCluster = new MarkerClusterer(map, markers,
+            {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+      }
+     
+    </script>
+    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBzFpfunTyb8RKZ8j07tOFqKdxjLC9GInE&callback=initMap">
+     </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>
