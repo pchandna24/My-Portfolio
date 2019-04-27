@@ -38,6 +38,13 @@
                                 <label for="exampleInputlat">Longtitude</label>
                                 <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Enter Longtitude">
                               </div>
+                              <div>
+                                    <select  class="form-control" style="width:100%; margin:10px">
+                                            <option selected>Water Issue</option>
+                                            <option>Waste Issue</option>
+                                            <option>Health Issue</option>
+                                        </select><br>
+                              </div>
 
                 </div>
                     
@@ -87,9 +94,13 @@
                 lat : parseFloat(lat),
                 lng : parseFloat(lng)
             };
-            locations.push(obj);
+            locations = locations.push(obj);
             console.log(locations);
+            initMap();
         }
+
+        
+
       function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 3,
